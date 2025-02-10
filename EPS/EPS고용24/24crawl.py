@@ -9,8 +9,7 @@ headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0 Safari/537.36"
 }
 
-# 결과를 저장할 폴더 ("고용허가제\EPS고용24")
-save_directory = r"고용허가제\EPS고용24"  # r-string으로 경로 작성
+save_directory = r"base_data"
 if not os.path.exists(save_directory):
     os.makedirs(save_directory)
 
@@ -47,7 +46,7 @@ for tabGb in [6, 7]:
     print_div = soup.find("div", id="print")
     if print_div:
         text_content = print_div.get_text(separator="\n", strip=True)
-        # 추가: <div id="print"> 내부에서 <h4 class="typeE"> 태그의 텍스트 추출 (파일명에 포함)
+        # <div id="print"> 내부에서 <h4 class="typeE"> 태그의 텍스트 추출 (파일명에 포함)
         h4_tag = print_div.find("h4", class_="typeE")
         if h4_tag:
             type_text = h4_tag.get_text(strip=True)

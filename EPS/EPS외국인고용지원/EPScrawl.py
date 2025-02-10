@@ -4,7 +4,7 @@ import json
 import requests
 from bs4 import BeautifulSoup
 
-# 기본 도메인 (상대 URL 처리를 위해)
+# 상대 URL 처리를 위한 기본 도메인
 base_url = "https://eps.hrdkorea.or.kr"
 
 # 메인 페이지 URL (여기서 sub-menu를 추출)
@@ -15,8 +15,7 @@ headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0 Safari/537.36"
 }
 
-# 저장할 폴더 ("고용허가제\EPS외국인고용지원")
-save_directory = r"고용허가제\EPS외국인고용지원"
+save_directory = r"base_data"
 if not os.path.exists(save_directory):
     os.makedirs(save_directory)
 
