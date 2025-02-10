@@ -19,8 +19,8 @@ for file_path in json_files:
     with open(file_path, "r", encoding="utf-8") as f:
         data = json.load(f)
     document = {
-        "title": data["title"],
-        "description": data["content"]
+        "title": data.get("title", data.get("name", "Untitled")),
+        "description": data.get("content", "")
     }
     documents.append(document)
 
@@ -29,10 +29,12 @@ document_texts = [doc["description"] for doc in documents]
 model = SentenceTransformer('all-MiniLM-L6-v2')
 document_embeddings = model.encode(document_texts)
 
+if document_embeddings.ndim == 1:
+    document_embeddings = document_embeddings.reshape(1, -1)
+
 embedding_dim = document_embeddings.shape[1]
 index = faiss.IndexFlatL2(embedding_dim)
 index.add(document_embeddings)
-
 
 def retrieve_information(query: str, top_k: int = 3):
     query_embedding = model.encode([query])
@@ -66,13 +68,11 @@ def generate_response(user_query: str, retrieved_info: list):
     answer = response.choices[0].message.content.strip()
     return answer
 
-
-preset_answers = {
-    "비자 발급 절차를 알려줘": "비자 발급 절차는 먼저 신청서를 작성하고, 필요한 서류를 제출한 후, 심사를 거쳐 발급됩니다.",
-    "비자 신청서 작성 방법은?": "비자 신청서는 해당 국가의 대사관 또는 영사관 홈페이지에서 양식을 다운로드하여 작성할 수 있습니다.",
-    "비자 심사 기준은 무엇인가요?": "비자 심사 기준은 신청자의 자격, 제출 서류의 완전성, 체류 목적 등에 따라 달라집니다."
-}
-
+# preset_answers.json 파일을 현재 스크립트 디렉터리에서 로드합니다.
+current_dir = os.path.dirname(os.path.abspath(__file__))
+preset_answers_file = os.path.join(current_dir,"preset_answers", "preset_answers.json")
+with open(preset_answers_file, "r", encoding="utf-8") as f:
+    preset_answers = json.load(f)
 
 app = FastAPI()
 
@@ -80,20 +80,42 @@ class QueryRequest(BaseModel):
     question: str
 
 class QueryResponse(BaseModel):
-    answer: str
+    answer: str = None
+    sub_questions: list[str] = None
 
 @app.post("/chatbot", response_model=QueryResponse)
 async def chat_endpoint(query_request: QueryRequest):
-    user_question = query_request.question
+    user_question = query_request.question.strip()
     try:
         if user_question in preset_answers:
-            answer = preset_answers[user_question]
-        else:
-            retrieved_data = retrieve_information(user_question, top_k=3)
-            answer = generate_response(user_question, retrieved_data)
+            top_value = preset_answers[user_question]
+            if isinstance(top_value, dict):
+                sub_qs = list(top_value.keys())
+                return QueryResponse(sub_questions=sub_qs)
+            else:
+                return QueryResponse(answer=str(top_value))
+        
+        for top_key, top_value in preset_answers.items():
+            if isinstance(top_value, dict):
+                if user_question in top_value:
+                    sub_value = top_value[user_question]
+                    if isinstance(sub_value, dict):
+                        return QueryResponse(sub_questions=list(sub_value.keys()))
+                    elif isinstance(sub_value, list):
+                        final_answer = "\n\n".join(sub_value)
+                    else:
+                        final_answer = str(sub_value)
+                    return QueryResponse(answer=final_answer)
+                for sub_key, sub_value in top_value.items():
+                    if isinstance(sub_value, dict) and user_question in sub_value:
+                        final_answer = str(sub_value[user_question])
+                        return QueryResponse(answer=final_answer)
+        
+        retrieved_data = retrieve_information(user_question, top_k=3)
+        answer = generate_response(user_question, retrieved_data)
+        return QueryResponse(answer=answer)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    return QueryResponse(answer=answer)
 
 if __name__ == "__main__":
     import uvicorn
