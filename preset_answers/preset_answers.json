@@ -195,210 +195,246 @@
       {
         "center_name": "외국인력지원센터 (www.hugkorea.or.kr)",
         "address": "경기도 안산시 단원구 고잔2길 16 에메랄드빌딩 3층",
-        "telephone": "1577-0071"
+        "telephone": "1577-0071",
+        "url": "www.hugkorea.or.kr"
       },
       {
         "center_name": "부천이주민센터",
         "address": "경기도 부천시 원미구 계남로 336 3층",
-        "telephone": "032-654-0664"
+        "telephone": "032-654-0664",
+        "url": "www.bmwh.or.kr"
       },
       {
         "center_name": "(사)국경없는마을 김포이주민센터",
         "address": "경기도 김포시 양촌읍 양곡1로 40번길 29 2층",
-        "telephone": "031-982-7661"
+        "telephone": "031-982-7661",
+        "url": "http://cafe.naver.com/ichunddu"
       },
       {
         "center_name": "오산이주노동자센터",
         "address": "경기도 오산시 성호대로 50번길 38",
-        "telephone": "031-372-9301"
+        "telephone": "031-372-9301",
+        "url": "http://www.owcc.or.kr/"
       },
       {
         "center_name": "평택외국인복지센터",
         "address": "경기도 평택시 평택로64번길 42",
-        "telephone": "031-652-8855"
+        "telephone": "031-652-8855",
+        "url": "http://www.wooricenter.org/"
       },
       {
         "center_name": "안산외국인노동자의 집",
         "address": "경기도 안산시 단원구 원선로 26 라성3차 연립상가 2층",
-        "telephone": "031-495-2288"
+        "telephone": "031-495-2288",
+        "url": "https://cafe.daum.net/goansango"
       },
       {
         "center_name": "(재)한국이주노동재단",
         "address": "경기도 광주시 경안동 33-32 2층",
-        "telephone": "031-797-2688"
+        "telephone": "031-797-2688",
+        "url": ""
       },
       {
         "center_name": "천주교의정부교구 구리EXODUS",
         "address": "경기도 구리시 체육관로 153번길 18",
-        "telephone": "031-566-1142"
+        "telephone": "031-566-1142",
+        "url": "https://www.facebook.com/exoduseast"
       },
       {
         "center_name": "수원시외국인복지센터",
         "address": "경기도 수원시 팔달구 중부대로 43",
-        "telephone": "031-223-0075"
+        "telephone": "031-223-0075",
+        "url": "www.suwonmcs.com"
       },
       {
         "center_name": "이천시다문화가족지원센터",
         "address": "경기도 이천시 남천로 31",
-        "telephone": "031-631-2260"
+        "telephone": "031-631-2260",
+        "url": "https://www.liveinkorea.kr/center/main/main.do?centerId=icheonsi"
       },
       {
         "center_name": "남양주시외국인복지센터",
         "address": "경기도 남양주시 화도읍 가구단지 중앙길 2",
-        "telephone": "031-594-5821"
+        "telephone": "031-594-5821",
+        "url": "www.shalomhouse.kr"
       },
       {
         "center_name": "파주시건강가정 다문화가족지원센터",
         "address": "경기도 파주시 중앙로 229",
-        "telephone": "031-949-9164"
+        "telephone": "031-949-9164",
+        "url": "https://www.liveinkorea.kr/center/main/main.do?centerId=pajusi"
       },
       {
         "center_name": "시흥시외국인복지센터",
         "address": "경기도 시흥시 공단1대로 259번길 5",
-        "telephone": "031-434-0411"
+        "telephone": "031-434-0411",
+        "url": "www.shmwc.or.kr"
       }
     ],
     "부산광역시": [
       {
         "center_name": "부산 외국인근로자지원센터",
         "address": "부산 연제구 연수로 86",
-        "telephone": "051-868-7606"
+        "telephone": "051-868-7606",
+        "url": "www.bfwc.or.kr"
       }
     ],
     "대구광역시": [
       {
-        "center_name": "대구 외국인근로자지원센터 (dfwc.or.kr)",
+        "center_name": "대구 외국인근로자지원센터",
         "address": "대구 달성군 다사읍 달구벌대로 863, 8-9층",
-        "telephone": "053-654-9700"
+        "telephone": "053-654-9700",
+        "url": "dfwc.or.kr"
       }
     ],
     "인천광역시": [
       {
-        "center_name": "인천 외국인근로자지원센터 (icff.or.kr)",
+        "center_name": "인천 외국인근로자지원센터",
         "address": "인천 남동구 호구포로 220, 명진프라자 11-12층",
-        "telephone": "032-231-4545"
+        "telephone": "032-231-4545",
+        "url": "icff.or.kr"
       },
       {
         "center_name": "인천외국인노동자센터",
         "address": "인천시 남구 염전로 239번길 27-11",
-        "telephone": "032-874-3613"
+        "telephone": "032-874-3613",
+        "url": ""
       }
     ],
     "충청남도": [
       {
-        "center_name": "충남 외국인근로자지원센터 (cnfwc.or.kr)",
+        "center_name": "충남 외국인근로자지원센터",
         "address": "충남 천안시 서북구 성정공원5로 21, 4층",
-        "telephone": "041-622-7955"
+        "telephone": "041-622-7955",
+        "url": "cnfwc.or.kr"
       },
       {
         "center_name": "아산외국인노동자지원센터",
         "address": "충남 아산시 시장길 29 시민문화복지센터 203호",
-        "telephone": "041-541-9112"
+        "telephone": "041-541-9112",
+        "url": "http://www.amwc.kr/bbs/content.php?co_id=intro_3"
       }
     ],
     "경상남도": [
       {
-        "center_name": "김해 외국인근로자지원센터 (gimhaekorea.or.kr)",
+        "center_name": "김해 외국인근로자지원센터",
         "address": "경남 김해시 가락로 81 아이조이빌딩 6층",
-        "telephone": "055-724-2725"
+        "telephone": "055-724-2725",
+        "url": "gimhaekorea.or.kr"
       },
       {
-        "center_name": "양산 외국인근로자지원센터 (ysfc.or.kr)",
+        "center_name": "양산 외국인근로자지원센터",
         "address": "경남 양산시 연호로 28",
-        "telephone": "055-912-0255"
+        "telephone": "055-912-0255",
+        "url": "ysfc.or.kr"
       },
       {
-        "center_name": "창원 외국인근로자지원센터 (mfwc.or.kr)",
+        "center_name": "창원 외국인근로자지원센터",
         "address": "경남 창원시 마산합포구 3·15대로 203",
-        "telephone": "1800-5048"
+        "telephone": "1800-5048",
+        "url": "mfwc.or.kr"
       },
       {
         "center_name": "천주교마산교구 창원이주민센터",
         "address": "경남 창원시 의창구 창이대로 600번길 2",
-        "telephone": "055-275-8203"
+        "telephone": "055-275-8203",
+        "url": "https://www.changwon.go.kr/cwportal/ingu/14983/14985/14987.web"
       },
       {
         "center_name": "진주사랑의 집",
         "address": "경남 진주시 에나로 77번길 6-11",
-        "telephone": "055-763-0707"
+        "telephone": "055-763-0707",
+        "url": "www.jhouseoflove.com"
       }
     ],
     "전북특별자치도": [
       {
-        "center_name": "전북 외국인근로자지원센터 (facebook.com/jbtogether)",
+        "center_name": "전북 외국인근로자지원센터",
         "address": "전북 전주시 완산구 홍산로 276, 6층",
-        "telephone": "1551-1195"
+        "telephone": "1551-1195",
+        "url": "facebook.com/jbtogether"
       }
     ],
     "광주광역시": [
       {
-        "center_name": "광주 외국인주민지원센터 (girc.or.kr)",
+        "center_name": "광주 외국인주민지원센터",
         "address": "광주 광산구 풍영로145번길 82, 2층",
-        "telephone": "1644-3828"
+        "telephone": "1644-3828",
+        "url": "girc.or.kr"
       },
       {
         "center_name": "가톨릭광주사회복지회이주민사목부",
         "address": "광주광역시 북구 태봉로 23",
-        "telephone": "062-959-9335"
+        "telephone": "062-959-9335",
+        "url": ""
       }
     ],
     "서울특별시": [
       {
         "center_name": "(사)한국이주노동자복지회",
         "address": "서울시 구로구 구로중앙로 217-1 5층",
-        "telephone": "02-858-4115"
+        "telephone": "02-858-4115",
+        "url": "miwel.modoo.at"
       }
     ],
     "강원특별자치도": [
       {
         "center_name": "(사)함께하는 공동체",
         "address": "강원도 원주시 문막읍 왕건로143-7",
-        "telephone": "070-7521-8097"
+        "telephone": "070-7521-8097",
+        "url": "withc.hompee.com"
       }
     ],
     "충청북도": [
       {
         "center_name": "충북외국인 이주노동자지원센터",
         "address": "충북 진천군 진천읍 교성리 319-1",
-        "telephone": "043-534-6009"
+        "telephone": "043-534-6009",
+        "url": ""
       }
     ],
     "대전광역시": [
       {
         "center_name": "대전외국인이주노동자종합지원센터",
         "address": "대전광역시 중구 목척7길 6",
-        "telephone": "042-631-6242"
+        "telephone": "042-631-6242",
+        "url": "www.djmc.org"
       }
     ],
     "경상북도": [
       {
         "center_name": "(사)외국인노동자 문화센터 포항지부",
         "address": "경북 포항시 남구 오천읍 해병로347번길 34",
-        "telephone": "054-291-0191"
+        "telephone": "054-291-0191",
+        "url": ""
       },
       {
         "center_name": "(사)경주외국인지원센터",
         "address": "경북 경주시 외동읍 입실로2길 21 2층",
-        "telephone": "054-705-1828"
+        "telephone": "054-705-1828",
+        "url": ""
       },
       {
         "center_name": "꿈을 이루는 사람들",
         "address": "경북 구미시 지산1길 46-8",
-        "telephone": "054-458-0755"
+        "telephone": "054-458-0755",
+        "url": "www.letusdream.kr"
       }
     ],
     "전라남도": [
       {
         "center_name": "여수외국인노동자 문화센터",
         "address": "전남 여수시 어항단지로 53 2층",
-        "telephone": "061-644-3927"
+        "telephone": "061-644-3927",
+        "url": "happylog.naver.com"
       }
     ],
     "제주특별자치도": [
       {
         "center_name": "제주이주민센터",
         "address": "제주시 서광로 2길 35, 2층",
-        "telephone": "064-712-1141"
+        "telephone": "064-712-1141",
+        "url": "https://jejumc.tistory.com/"
       }
     ]
   },
