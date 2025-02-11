@@ -57,6 +57,14 @@ jobs:
             fi
 
             cd $REMOTE_DIR
+
+            # .env 파일 생성 (필요한 환경 변수들을 GitHub Secrets에서 가져옴)
+            cat <<EOT > .env
+            OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
+            # 추가 환경 변수들을 여기서 작성
+            EOT
+
+            cd $REMOTE_DIR
             pip install -r requirements.txt
 
             # 기존에 실행 중인 uvicorn 프로세스 종료, 만약 없으면 무시
