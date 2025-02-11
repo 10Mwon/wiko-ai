@@ -12,7 +12,6 @@ import glob
 load_dotenv()
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
-# base_data 폴더 내의 모든 JSON 파일을 로드하여 문서 리스트 생성
 json_folder = "base_data"
 json_files = glob.glob(os.path.join(json_folder, "*.json"))
 
@@ -28,7 +27,6 @@ for file_path in json_files:
 
 document_texts = [doc["description"] for doc in documents]
 
-# 임베딩 생성 모델 초기화 및 FAISS 인덱스 구축
 model = SentenceTransformer('all-MiniLM-L6-v2')
 document_embeddings = model.encode(document_texts)
 if document_embeddings.ndim == 1:
@@ -49,8 +47,10 @@ def generate_response(user_query: str, retrieved_info: list):
         info_text += f"{i}. 제목: {info.get('title')}\n   설명: {info.get('description')}\n"
     prompt = f"""
     사용자 질문: "{user_query}"
+    
     아래는 관련 정보입니다:
     {info_text}
+    
     위 정보를 바탕으로 사용자에게 알기 쉽게 답변을 작성해 주세요.
     """
     response = openai.chat.completions.create(
@@ -65,7 +65,16 @@ def generate_response(user_query: str, retrieved_info: list):
     answer = response.choices[0].message.content.strip()
     return answer
 
-# preset_answers.json 파일을 현재 스크립트 디렉터리의 "preset_answers" 폴더에서 로드
+def format_center_info(center: dict) -> str:
+    center_name = center.get("center_name", "")
+    address = center.get("address", "")
+    telephone = center.get("telephone", "")
+    url = center.get("url", "")
+    if url:
+        return f"{center_name}\n{address}\n전화번호: {telephone}\n웹사이트: {url}"
+    else:
+        return f"{center_name}\n{address}\n전화번호: {telephone}"
+
 current_dir = os.path.dirname(os.path.abspath(__file__))
 preset_answers_file = os.path.join(current_dir, "preset_answers", "preset_answers.json")
 with open(preset_answers_file, "r", encoding="utf-8") as f:
@@ -73,12 +82,11 @@ with open(preset_answers_file, "r", encoding="utf-8") as f:
 
 app = FastAPI()
 
-# Pydantic 모델 수정: answer와 sub_questions가 문자열 또는 딕셔너리 리스트를 허용
 class QueryRequest(BaseModel):
     question: str
 
 class QueryResponse(BaseModel):
-    answer: Union[str, List[Dict[str, str]], None] = None
+    answer: str = None
     sub_questions: Union[List[str], List[Dict[str, str]], None] = None
 
 @app.post("/chatbot", response_model=QueryResponse)
@@ -92,6 +100,7 @@ async def chat_endpoint(query_request: QueryRequest):
                 return QueryResponse(sub_questions=sub_qs)
             else:
                 return QueryResponse(answer=str(top_value))
+    
         for top_key, top_value in preset_answers.items():
             if isinstance(top_value, dict):
                 if user_question in top_value:
@@ -99,9 +108,9 @@ async def chat_endpoint(query_request: QueryRequest):
                     if isinstance(sub_value, dict):
                         return QueryResponse(sub_questions=list(sub_value.keys()))
                     elif isinstance(sub_value, list):
-                        # 만약 리스트 요소가 dict라면 그대로 반환
                         if sub_value and isinstance(sub_value[0], dict):
-                            final_answer = sub_value
+                            formatted_entries = [format_center_info(entry) for entry in sub_value]
+                            final_answer = "\n\n".join(formatted_entries)
                         else:
                             final_answer = "\n\n".join(sub_value)
                     else:
@@ -109,8 +118,13 @@ async def chat_endpoint(query_request: QueryRequest):
                     return QueryResponse(answer=final_answer)
                 for sub_key, sub_value in top_value.items():
                     if isinstance(sub_value, dict) and user_question in sub_value:
-                        final_answer = str(sub_value[user_question])
+                        value = sub_value[user_question]
+                        if isinstance(value, list):
+                            final_answer = "\n\n".join(value)
+                        else:
+                            final_answer = str(value)
                         return QueryResponse(answer=final_answer)
+        
         retrieved_data = retrieve_information(user_question, top_k=3)
         answer = generate_response(user_question, retrieved_data)
         return QueryResponse(answer=answer)

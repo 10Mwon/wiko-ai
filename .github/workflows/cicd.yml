@@ -1,0 +1,67 @@
+name: CI/CD for FastAPI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install SSH client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ssh
+
+      # GitHub Secrets에 저장된 SSH 키 디코딩 및 파일로 저장
+      - name: Setup SSH Key
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          echo "$SSH_KEY" | base64 --decode > ssh_key.pem
+          chmod 400 ssh_key.pem
+
+      # EC2 인스턴스로 배포 (애플리케이션이 아직 클론되지 않았다면 clone, 이미 있다면 pull)
+      - name: Deploy to EC2
+        env:
+          HOST: ${{ secrets.EC2_HOST }}
+          REPO_URL: ${{secrets.REPO_URL}}
+          REMOTE_DIR: ${{secrets.REMOTE_DIR}}
+        run: |
+          ssh -o "StrictHostKeyChecking=no" -i ec2_ssh_key.pem ubuntu@$HOST << "EOF"
+            # REMOTE_DIR이 없거나 .git 폴더가 없으면 리포지토리 클론
+            if [ ! -d "$REMOTE_DIR/.git" ]; then
+              git clone $REPO_URL $REMOTE_DIR
+            else
+              cd $REMOTE_DIR && git pull
+            fi
+
+            cd $REMOTE_DIR
+            pip install -r requirements.txt
+
+            # 기존에 실행 중인 uvicorn 프로세스 종료, 만약 없으면 무시
+            pkill -f "uvicorn main:app" || true
+
+            # 애플리케이션을 백그라운드에서 실행
+            nohup uvicorn main:app --host 0.0.0.0 --port 8000 > app.log 2>&1 &
+          EOF
