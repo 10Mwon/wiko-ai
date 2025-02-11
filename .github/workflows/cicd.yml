@@ -64,7 +64,6 @@ jobs:
             # 추가 환경 변수들을 여기서 작성
             EOT
 
-            cd $REMOTE_DIR
             pip install -r requirements.txt
 
             # 기존에 실행 중인 uvicorn 프로세스 종료, 만약 없으면 무시
@@ -72,4 +71,4 @@ jobs:
 
             # 애플리케이션을 백그라운드에서 실행
             nohup uvicorn main:app --host 0.0.0.0 --port 8000 > app.log 2>&1 &
-          EOF
+            EOF
