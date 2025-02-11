@@ -33,13 +33,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y ssh
 
-      # GitHub Secrets에 저장된 SSH 키 디코딩 및 파일로 저장
-      - name: Setup SSH Key
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-        run: |
-          echo "$SSH_KEY" > ssh_key.pem
-          chmod 400 ssh_key.pem
+      # - name: Setup SSH Key
+      #   env:
+      #     SSH_KEY: ${{ secrets.SSH_KEY }}
+      #   run: |
+      #     echo "$SSH_KEY" > ssh_key.pem
+      #     chmod 400 ssh_key.pem
 
       # EC2 인스턴스로 배포 (애플리케이션이 아직 클론되지 않았다면 clone, 이미 있다면 pull)
       - name: Deploy to EC2
@@ -47,28 +46,26 @@ jobs:
           HOST: ${{ secrets.SSH_HOST }}
           REPO_URL: ${{secrets.REPO_URL}}
           REMOTE_DIR: ${{secrets.REMOTE_DIR}}
+          OPENAI_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          ssh -o "StrictHostKeyChecking=no" -i ssh_key.pem ubuntu@$HOST << EOF
-            # REMOTE_DIR이 없거나 .git 폴더가 없으면 리포지토리 클론
-            if [ ! -d "$REMOTE_DIR/.git" ]; then
-              git clone $REPO_URL $REMOTE_DIR
-            else
-              cd $REMOTE_DIR && git pull
-            fi
+          ssh -o "StrictHostKeyChecking=no" -i ssh_key.pem ubuntu@$HOST <<EOF
+          if [ ! -d "$REMOTE_DIR/.git" ]; then
+            git clone "$REPO_URL" "$REMOTE_DIR"
+          else
+            cd "$REMOTE_DIR" && git pull
+          fi
 
-            cd $REMOTE_DIR
+          cd "$REMOTE_DIR"
 
-            # .env 파일 생성 (필요한 환경 변수들을 GitHub Secrets에서 가져옴)
-            cat <<EOT > .env
-            OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
-            # 추가 환경 변수들을 여기서 작성
-            EOT
+          # .env 파일 생성
+          cat <<EOT > .env
+          OPENAI_API_KEY=$OPENAI_KEY
+          # 추가 환경 변수가 있다면 여기 추가
+          EOT
 
-            pip install -r requirements.txt
+          pip install -r requirements.txt
 
-            # 기존에 실행 중인 uvicorn 프로세스 종료, 만약 없으면 무시
-            pkill -f "uvicorn main:app" || true
+          pkill -f "uvicorn main:app" || true
 
-            # 애플리케이션을 백그라운드에서 실행
-            nohup uvicorn main:app --host 0.0.0.0 --port 8000 > app.log 2>&1 &
-            EOF
+          nohup uvicorn main:app --host 0.0.0.0 --port 8000 > app.log 2>&1 &
+          EOF
