@@ -33,12 +33,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y ssh
 
-      # - name: Setup SSH Key
-      #   env:
-      #     SSH_KEY: ${{ secrets.SSH_KEY }}
-      #   run: |
-      #     echo "$SSH_KEY" > ssh_key.pem
-      #     chmod 400 ssh_key.pem
+      - name: Setup SSH Key
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          echo "$SSH_KEY" > ssh_key.pem
+          chmod 400 ssh_key.pem
 
       # EC2 인스턴스로 배포 (애플리케이션이 아직 클론되지 않았다면 clone, 이미 있다면 pull)
       - name: Deploy to EC2
