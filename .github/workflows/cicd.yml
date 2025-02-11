@@ -48,7 +48,7 @@ jobs:
           REPO_URL: ${{secrets.REPO_URL}}
           REMOTE_DIR: ${{secrets.REMOTE_DIR}}
         run: |
-          ssh -o "StrictHostKeyChecking=no" -i ssh_key.pem ubuntu@$HOST << "EOF"
+          ssh -o "StrictHostKeyChecking=no" -i ssh_key.pem ubuntu@$HOST << EOF
             # REMOTE_DIR이 없거나 .git 폴더가 없으면 리포지토리 클론
             if [ ! -d "$REMOTE_DIR/.git" ]; then
               git clone $REPO_URL $REMOTE_DIR
