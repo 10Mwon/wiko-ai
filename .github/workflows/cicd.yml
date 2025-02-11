@@ -57,10 +57,13 @@ jobs:
 
           cd "$REMOTE_DIR"
 
+          # 가상환경 설정
+          python3 -m venv .venv
+          source .venv/bin/activate
+
           # .env 파일 생성
           cat <<EOT > .env
           OPENAI_API_KEY=$OPENAI_KEY
-          # 추가 환경 변수가 있다면 여기 추가
           EOT
 
           pip install -r requirements.txt
